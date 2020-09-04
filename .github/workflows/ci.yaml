@@ -21,10 +21,10 @@ jobs:
           tar xzf kotlin-native-linux-1.4.tar.gz
           docker build . --tag $IMAGE_NAME
 
-      - run: docker run --rm $IMAGE_NAME kotlin -version
-      - run: docker run --rm $IMAGE_NAME /opt/kotlin-native/bin/kotlinc -version
+      - run: docker run --rm -u user $IMAGE_NAME kotlin -version
+      - run: docker run --rm -u user $IMAGE_NAME /opt/kotlin-native/bin/kotlinc -version
 
-      - run: docker run --rm $IMAGE_NAME kotlin /sample/sh.main.kts
+      - run: docker run --rm -u user $IMAGE_NAME kotlin /sample/sh.main.kts
 
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
