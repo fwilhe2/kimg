@@ -16,8 +16,13 @@ jobs:
       - name: Build image
         run: |
           wget https://github.com/JetBrains/kotlin/releases/download/v1.4.0/kotlin-compiler-1.4.0.zip
+          wget https://github.com/JetBrains/kotlin/releases/download/v1.4.0/kotlin-native-linux-1.4.tar.gz
           unzip kotlin-compiler-1.4.0.zip
+          tar xzf kotlin-native-linux-1.4.tar.gz
           docker build . --tag $IMAGE_NAME
+
+      - run: docker run --rm $IMAGE_NAME kotlin -version
+      - run: docker run --rm $IMAGE_NAME /opt/kotlin-native/bin/kotlinc -version
 
       - name: Log into GitHub Container Registry
         run: echo "${{ secrets.CR_PAT }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
